@@ -1,0 +1,53 @@
+package be.ipam.SGBD.jwt;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import be.ipam.SGBD.classes.*;
+import be.ipam.SGBD.DAO.*;
+
+
+
+@Service
+public class JwtInMemoryUserDetailsService implements UserDetailsService {
+
+  @Autowired
+  ReaderDAO readerDAO;
+	
+	
+  //static List<JwtUserDetails> inMemoryUserList = new ArrayList<>();
+
+  //static {
+  //  inMemoryUserList.add(new JwtUserDetails(1L, "toto",
+  //      "$2a$10$Bi7DWJTLZp4fjT8oT96q0erNCzQD5QtR62uT1v7QFWddmp3c9.g.G", "ADMIN"));
+  //}
+
+  @Override
+  public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
+    
+	  Optional<Reader> stu = readerDAO.findByemail(mail);
+	    
+	  Optional<JwtUserDetails> user = Optional.empty();
+	  
+	  if(stu.isPresent()) {
+		  user = Optional.of(new JwtUserDetails(stu.get().getReaderId(),stu.get().getEmail(),stu.get().getPassword(),"ROLE_USER")); 
+	  }
+	  
+	  //Optional<JwtUserDetails> findFirst = inMemoryUserList.stream()
+      //  .filter(user -> user.getUsername().equals(username)).findFirst();
+
+	  if (!user.isPresent()) {
+		  throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", mail));
+	  }
+
+	  return user.get();
+  }
+
+}

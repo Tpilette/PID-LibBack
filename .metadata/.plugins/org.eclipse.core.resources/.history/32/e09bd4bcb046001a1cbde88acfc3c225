@@ -1,0 +1,29 @@
+package be.ipam.SGBD.classes;
+import java.util.Date;
+
+public class BorrowingRequestData {
+	
+	Edition Edition;
+	long ReaderId;
+	Date Date;
+	
+	
+	public Edition getEdition() {
+		return Edition;
+	}
+	public void setEdition(Edition edition) {
+		Edition = edition;
+	}
+	public long getReaderId() {
+		return ReaderId;
+	}
+	public void setReaderId(long readerId) {
+		ReaderId = readerId;
+	}
+	public Date getDate() {
+		return Date;
+	}
+	public void setDate(Date date) {
+		Date = date;
+	}
+}

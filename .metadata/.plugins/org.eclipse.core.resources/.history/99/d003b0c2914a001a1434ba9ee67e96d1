@@ -1,0 +1,46 @@
+package be.ipam.SGBD.Model;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import be.ipam.SGBD.DAO.BookDAO;
+import be.ipam.SGBD.DAO.CopyDAO;
+import be.ipam.SGBD.classes.Book;
+import be.ipam.SGBD.classes.Copy;
+import be.ipam.SGBD.classes.Edition;
+
+@Service
+public class BookModel {
+	
+	@Autowired
+	private BookDAO bookDAO;
+	@Autowired
+	private CopyDAO copyDAO;
+	
+	public Iterable<Book> getBooks(){
+		
+		return bookDAO.findAll();
+		
+	}
+	
+	public Book addBook(Book book){
+		return (bookDAO.save(book));
+	}
+	
+	public Optional<Book> getBookById(long id){
+	
+		return bookDAO.findById(id);
+	}
+	
+	public void deleteBook(long id) {
+		
+		 bookDAO.deleteById(id);
+	}
+	
+	public Optional<Copy> getAvailableCopyForEdition(Edition ed){
+		
+		return  copyDAO.getAvailableCopy(ed.getISBN());
+		
+	}
+}

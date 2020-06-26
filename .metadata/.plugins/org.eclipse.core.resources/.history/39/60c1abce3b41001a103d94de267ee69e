@@ -1,0 +1,5 @@
+package be.ipam.SGBD.Model;
+
+public class BorrowingModel {
+
+}

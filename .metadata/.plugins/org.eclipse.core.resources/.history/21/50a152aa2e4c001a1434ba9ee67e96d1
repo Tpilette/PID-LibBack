@@ -1,0 +1,88 @@
+package be.ipam.SGBD.controller;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import be.ipam.SGBD.Model.BorrowingModel;
+import be.ipam.SGBD.Model.ReaderModel;
+import be.ipam.SGBD.classes.Borrowing;
+import be.ipam.SGBD.classes.BorrowingRequestData;
+import be.ipam.SGBD.classes.Copy;
+import be.ipam.SGBD.classes.Edition;
+import be.ipam.SGBD.classes.Reader;
+
+@RestController
+public class ReaderController {
+
+	@Autowired
+	ReaderModel rm;
+	@Autowired
+	BorrowingModel bm;
+	@Autowired 
+	BookController bc;
+	
+
+	@RequestMapping("/Readers")
+	public List<Reader> getReaders() {
+
+		List<Reader> r = (List<Reader>) rm.getReaders();
+		return r;
+	}
+
+	@GetMapping("/Readers/{id}")
+	public Optional<Reader> getReaderById(@PathVariable long id, Model model) {
+
+		Optional<Reader> r = rm.getReaderById(id);
+		return r;
+	}
+
+	@Secured("ROLE_READER")
+	@PutMapping("/Reader/Update/{id}")
+	public Reader updateReader(@RequestBody Reader r, @PathVariable long id) {
+
+		return rm.saveReader(r);
+
+	}
+	
+	
+	@Secured({"ROLE_READER" , "ROLE_LIBRARIAN"})
+	@PostMapping("/Reader/Borrow")
+	public boolean BorrowBook(@RequestBody BorrowingRequestData data) {
+		
+		Edition ed =  data.getEdition();
+		Optional<Copy> copy = bc.getAnAvailableCopyForBookEdition(ed);
+		Optional<Reader> r = rm.getReaderById(data.getReaderId());
+		
+		if(copy.isPresent() && r.isPresent()) {
+			// add condition for borrow 
+			
+			Date d = (Date)data.getDate();
+			Borrowing b = bm.borrow(copy.get(), r.get(), d);	
+			
+			return true;
+
+		}
+		else {
+			return false;
+		}
+		
+					
+	}
+	
+	
+	
+	
+}

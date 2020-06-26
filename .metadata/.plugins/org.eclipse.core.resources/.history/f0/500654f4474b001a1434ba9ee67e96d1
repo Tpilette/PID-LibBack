@@ -1,0 +1,40 @@
+package be.ipam.SGBD.Model;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import be.ipam.SGBD.DAO.BorrowingDAO;
+import be.ipam.SGBD.classes.Borrowing;
+import be.ipam.SGBD.classes.Copy;
+import be.ipam.SGBD.classes.Reader;
+
+@Service
+public class BorrowingModel {
+	
+	@Autowired
+	BorrowingDAO bd;
+	
+	
+	public List<Borrowing> getEmprunts(Reader r){
+		
+		return bd.getBorrowingByReader(r.getReaderId());			
+	}
+	
+	
+	public Borrowing borrow(Copy copy, Reader reader, Date date) {
+		
+		Borrowing borrow = new Borrowing();
+		borrow.setReader(reader);
+		borrow.setStartDate(date);
+		borrow.setCopyId(copy.getCopyId());
+		
+		return bd.save(borrow);
+	}
+	
+	
+	
+
+}

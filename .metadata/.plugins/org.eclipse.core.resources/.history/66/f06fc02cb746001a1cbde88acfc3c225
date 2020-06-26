@@ -1,0 +1,67 @@
+package be.ipam.SGBD.classes;
+
+import java.util.List;
+
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.*;
+
+
+@Entity
+@Table(name="Book")
+public class Book {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="BookId")
+	private long BookId;
+
+	@Column(name="Title")
+	private String Title;
+
+	@Column(name="Description")
+	private String Description;
+	
+	@OneToMany(mappedBy="book",fetch=FetchType.LAZY)
+	@JsonBackReference
+	private List<Edition> editions;
+	
+	
+	public Book() {};
+	public Book(String title,String description){
+		this.Title = title;
+		this.Description = description;
+	}
+	
+	public String getTitle() {
+		return Title;
+	}
+
+	public void setTitle(String title) {
+		Title = title;
+	}
+
+	public String getDescription() {
+		return Description;
+	}
+
+	public void setDescription(String description) {
+		Description = description;
+	}
+
+	public long getBookId() {
+		return BookId;
+	}	
+	public void setBookId(long bookId) {
+		BookId = bookId;
+	}
+	
+	public List<Edition> getEditions() {
+		return editions;
+	}
+	public void setEditions(List<Edition> editions) {
+		this.editions = editions;
+	}
+
+}
+

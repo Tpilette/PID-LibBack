@@ -1,0 +1,64 @@
+package be.ipam.SGBD.classes;
+import java.util.List;
+import javax.persistence.*;
+
+@Entity
+@Table(name="Bibliotheque")
+public class Bibliotheque {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="BibliothequeId")
+	private long BibliothequeId;
+	
+	@Column(name="Address")
+	private String Address;
+	
+	@Column(name="Phone")
+	private String Phone;
+	
+	@Column(name="Email")
+	private String Email;
+	
+	@OneToMany(mappedBy="Bibliotheque",fetch=FetchType.LAZY)
+	public List<Copy> copies;
+	
+	
+	public long getLibraryId() {
+		return BibliothequeId;
+	}
+	public void setLibraryId(long libraryId) {
+		BibliothequeId = libraryId;
+	}
+	public String getAddress() {
+		return Address;
+	}
+	public void setAddress(String address) {
+		Address = address;
+	}
+	public String getPhone() {
+		return Phone;
+	}
+	public void setPhone(String phone) {
+		Phone = phone;
+	}
+	public String getEmail() {
+		return Email;
+	}
+	public void setEmail(String eMail) {
+		Email = eMail;
+	}
+	public long getBibliothequeId() {
+		return BibliothequeId;
+	}
+	public void setBibliothequeId(long bibliothequeId) {
+		BibliothequeId = bibliothequeId;
+	}
+	public List<Copy> getCopies() {
+		return copies;
+	}
+	public void setCopies(List<Copy> copies) {
+		this.copies = copies;
+	}
+	
+}

@@ -1,0 +1,97 @@
+package be.ipam.SGBD.controller;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import be.ipam.SGBD.Model.BookModel;
+import be.ipam.SGBD.classes.Book;
+import be.ipam.SGBD.classes.Copy;
+import be.ipam.SGBD.classes.Edition;
+
+@RestController
+public class BookController {
+
+    @Autowired
+    BookModel bm;
+    
+
+    
+    //GET All Books
+    @Secured("ROLE_READER")
+    @GetMapping(value="/Books")
+    public List<Book> getBooks(Model model){
+
+       List<Book> books = (List<Book>) bm.getBooks();
+       return books;
+    }
+
+    // ADD a book 
+    @PostMapping(value="/Books/Add")
+    public Book addBook(@RequestBody Book book){
+        return (bm.addBook(book));
+    }
+    
+    // get by ID
+    @GetMapping("/Books/{id}")
+    public Optional<Book> getBook(@PathVariable long id,Model model){
+         
+    	Optional<Book> b =bm.getBookById(id); 
+        return b;
+    }
+    
+    // Delete
+    @GetMapping("/Books/{id}/Delete")
+    public boolean deleteBook(@PathVariable long id) {
+    	
+    	bm.deleteBook(id);
+    	return true;
+    }
+    
+    //Get Edition for specified book
+    @GetMapping("/Books/{id}/Edition")
+    public List<Edition> getEdition(@PathVariable long id,Model model){
+
+       Optional<Book> b = bm.getBookById(id);
+       
+       return b.get().getEditions();
+    }
+    
+  //Copy section
+    @GetMapping("/Books/{id}/Edition/{edId}/Copies")
+    public List<Copy> getEditionCopies(@PathVariable long id,@PathVariable String edId,Model model){
+
+       Optional<Book> b = bm.getBookById(id);
+       
+       List<Edition> eds = b.get().getEditions();
+       List<Copy> result = new ArrayList<Copy>();
+       
+       
+       for (Edition ed : eds) {
+    	   if(ed.getISBN().toString() == edId.toString()) {
+      		 result = ed.getCopies();  
+      	   }
+    	  }
+       
+        return (List<Copy>)result;
+    }
+    
+    
+    public Optional<Copy> getAnAvailableCopyForBookEdition(Edition ed) {
+    	
+     return bm.getAvailableCopyForEdition(ed);
+    	    	
+    }
+}
