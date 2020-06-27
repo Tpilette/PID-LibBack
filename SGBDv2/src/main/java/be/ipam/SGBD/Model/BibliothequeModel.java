@@ -81,7 +81,7 @@ public class BibliothequeModel {
 		
 		Borrowing borrow = new Borrowing();
 		
-		//if(checkReader(reader,1)) {
+		if(checkReader(reader,1)) {
 
 			borrow.setReaderId(reader.getReaderId());
 			borrow.setStartDate(date);
@@ -93,7 +93,7 @@ public class BibliothequeModel {
 			//copy.setCopyStatus(3);
 			//copyDAO.save(copy);
 			
-	//	}
+	   }
 		return borrow;
 		
 	}
@@ -101,16 +101,16 @@ public class BibliothequeModel {
 	
 	public boolean checkReader(Reader r,long bibId) {
 		
-		List<Cotisation> coti = readerModel.getAffiliations(r);
+		//List<Cotisation> coti = readerModel.getAffiliations(r);
 		List<Amende> amendes = readerModel.getAmende(r);
 		Boolean cotisationOk = true;
 		
-		for (Cotisation cotisation : coti) {
+		//for (Cotisation cotisation : coti) {
 			
-			if(cotisation.getBibliothequeId() == bibId) {
-				cotisationOk = cotisation.getExpirationDate().compareTo(Calendar.getInstance().getTime()) > 0 ? true : false ;
-			}
-		}
+		//	if(cotisation.getBibliothequeId() == bibId) {
+		//		cotisationOk = cotisation.getExpirationDate().compareTo(Calendar.getInstance().getTime()) > 0 ? true : false ;
+		//	}
+		//}
 				
 		if(cotisationOk && amendes.size() < 1) {
 		
