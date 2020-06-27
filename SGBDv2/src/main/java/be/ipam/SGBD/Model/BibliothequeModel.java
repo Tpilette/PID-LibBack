@@ -11,6 +11,7 @@ import be.ipam.SGBD.classes.Copy;
 import be.ipam.SGBD.classes.Cotisation;
 import be.ipam.SGBD.classes.Reader;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,20 +77,21 @@ public class BibliothequeModel {
 	}
 	
 	
-	public Borrowing borrow(Copy copy, Reader reader, SimpleDateFormat date) {
+	public Borrowing borrow(Copy copy, Reader reader, Timestamp date) {
 		
 		Borrowing borrow = new Borrowing();
 		
 		//if(checkReader(reader,1)) {
 
-			borrow.setReader(reader);
+			borrow.setReaderId(reader.getReaderId());
 			borrow.setStartDate(date);
 			borrow.setCopyId(copy.getCopyId());
 			
 			borrow = borrowingDAO.save(borrow);
 			
-			copy.setCopyStatus(3);
-			copyDAO.save(copy);
+			//set copy as unavailable
+			//copy.setCopyStatus(3);
+			//copyDAO.save(copy);
 			
 	//	}
 		return borrow;

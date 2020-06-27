@@ -1,24 +1,26 @@
 package be.ipam.SGBD.classes;
-import java.io.Serializable;
 
-public class Location implements Serializable{
+
+
+public class Location {
 	
-	private static final long serialVersionUID = 1L;
-	private String ISBN;
-	private long userId;
+	private int bookId;
+	private String username;
+
+	
+	public int getBookId() {
+		return bookId;
+	}
+	public void setBookId(int book) {
+		this.bookId = book;
+	}
+	public String getUsername() {
+		return username;
+	}
+	public void setUsername(String user) {
+		this.username = user;
+	}
 	
 	
-	public String getISBN() {
-		return ISBN;
-	}
-	public void setISBN(String iSBN) {
-		ISBN = iSBN;
-	}
-	public long getUserId() {
-		return userId;
-	}
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
 
 }

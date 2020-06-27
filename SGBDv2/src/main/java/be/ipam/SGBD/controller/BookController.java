@@ -1,14 +1,21 @@
 package be.ipam.SGBD.controller;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.ipam.SGBD.Model.BookModel;
@@ -31,6 +38,19 @@ public class BookController {
        List<Book> books = (List<Book>) bm.getBooks(bibliothequeId);
        return books;
     }
+    
+    //GET title of copy
+     @RequestMapping(method=RequestMethod.GET,value="/copyTitle/{copyId}")
+     public String getCopyTitle(@PathVariable long copyId){
+
+    	String title = bm.getCopyTitle(copyId);
+    	
+    	Map<String, String> body = Collections.singletonMap("\"response\"",String.format("\"%s\"", title));
+    	String result = body.toString();
+    	result = result.replace('=', ':');
+        return result;
+        
+     }
 
     // ADD a book 
     @PostMapping(value="/Books/Add")
@@ -52,16 +72,5 @@ public class BookController {
     	
     	bm.deleteBook(id);
     	return true;
-    }
-        
-  //Copy section
-    @GetMapping("/Edition/{isbn}/Copies")
-    public List<Copy> getEditionCopies(@PathVariable String isbn,Model model){
-        return bm.getCopiesForEdition(isbn); 
-    }   
-    
-    @GetMapping("/Edition/{edId}/Copies")
-    public Optional<Copy> getAnAvailableCopyForBookEdition(@PathVariable String isbn) {
-     return bm.getAvailableCopyForEdition(isbn);    	    	
     }
 }

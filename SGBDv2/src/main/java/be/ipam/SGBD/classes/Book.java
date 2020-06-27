@@ -1,10 +1,7 @@
 package be.ipam.SGBD.classes;
 
-import java.util.List;
-
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.*;
 
 
 @Entity
@@ -21,12 +18,20 @@ public class Book {
 
 	@Column(name="Description")
 	private String description;
+	
+	@Column(name="Price")
+	private Float price;
+	
+	@Column(name="Edition")
+	private String edition;
 
 		
 	public Book() {};
-	public Book(String title,String description){
+	public Book(String title,String description,float price,String edition){
 		this.title = title;
 		this.description = description;
+		this.price = price;
+		this.edition = edition;
 	}
 	
 	public String getTitle() {
@@ -50,6 +55,18 @@ public class Book {
 	}	
 	public void setBookId(long bookId) {
 		this.bookId = bookId;
+	}
+	public Float getPrice() {
+		return price;
+	}
+	public void setPrice(Float price) {
+		this.price = price;
+	}
+	public String getEdition() {
+		return edition;
+	}
+	public void setEdition(String edition) {
+		this.edition = edition;
 	}
 	
 

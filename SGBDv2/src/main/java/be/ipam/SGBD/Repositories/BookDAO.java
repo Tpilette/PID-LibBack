@@ -13,7 +13,7 @@ import be.ipam.SGBD.classes.Copy;
 public interface BookDAO extends CrudRepository<Book,Long> {
 	
 	
-	@Query(value="select * from Book where book.BookId in(select bib.BookId from BibliothequeBook bib where bib.BibliothequeId = ?1)",nativeQuery= true)
+	@Query(value="select * from Book where book.BookId in(select co.BookId from Copy co where co.BibliothequeId = ?1)",nativeQuery= true)
 	public List<Book> getBooks(long bibliothequeId);
 
 }

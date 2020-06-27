@@ -1,40 +1,49 @@
 package be.ipam.SGBD.classes;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
+@Table(name="Borrowing")
 public class Borrowing {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Borrowingid")
+	@Column(name = "BorrowingId")
 	private long borrowingId;
 
-	@Column(name = "Startdate")
-	private SimpleDateFormat startDate;
+	@Column(name = "StartDate")
+	@DateTimeFormat(pattern="dd-MM-YYYY")
+	private Timestamp startDate;
 
-	@ManyToOne
-	@JoinColumn(name = "Readerid") 
-	private Reader reader;
+	@JoinColumn(name = "ReaderId") 
+	private long readerId;
 
-	
+	@JoinColumn(name="CopyId")
 	private long copyId;
+	
 
+	public Borrowing() {};
+	public Borrowing(Timestamp startdate,long readerId,long copyId) {
+		this.startDate = startdate;
+		this.readerId = readerId;
+		this.copyId = copyId;
+	};
+	
 
-	public SimpleDateFormat getStartDate() {
+	public Timestamp getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(SimpleDateFormat date) {
+	public void setStartDate(Timestamp date) {
 		this.startDate = date;
 	}
 
@@ -46,12 +55,12 @@ public class Borrowing {
 		this.borrowingId = borrowingId;
 	}
 
-	public Reader getReader() {
-		return reader;
+	public long getReaderId() {
+		return readerId;
 	}
 
-	public void setReader(Reader reader) {
-		this.reader = reader;
+	public void setReaderId(long reader) {
+		this.readerId = reader;
 	}
 
 	public long getCopyId() {

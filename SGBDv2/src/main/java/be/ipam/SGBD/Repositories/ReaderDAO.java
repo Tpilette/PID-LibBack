@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import be.ipam.SGBD.classes.Reader;
 import be.ipam.SGBD.classes.Amende;
+import be.ipam.SGBD.classes.Borrowing;
 import be.ipam.SGBD.classes.Cotisation;
 
 public interface ReaderDAO extends CrudRepository<Reader,Long> {

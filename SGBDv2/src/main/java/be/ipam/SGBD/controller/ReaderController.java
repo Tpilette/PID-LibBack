@@ -1,17 +1,21 @@
 package be.ipam.SGBD.controller;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import be.ipam.SGBD.Model.ReaderModel;
+import be.ipam.SGBD.classes.Borrowing;
 import be.ipam.SGBD.classes.Reader;
 
 @RestController
@@ -46,6 +50,17 @@ public class ReaderController {
 
 		return rm.saveReader(r);
 
+	}
+	
+	
+	@PostMapping("/reader/emprunt")
+	public List<Borrowing> getEmpruntUser(@RequestBody Map<String,String> user){
+		
+		String userMail = user.get("userMail");
+		
+		long readerId = rm.getReaderByMail(userMail).get().getReaderId();
+		
+		return (List<Borrowing>) rm.getEmprunts(readerId);		
 	}
 	
 	

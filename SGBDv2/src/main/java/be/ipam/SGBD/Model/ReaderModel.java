@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import be.ipam.SGBD.classes.Reader;
 import be.ipam.SGBD.Repositories.*;
 import be.ipam.SGBD.classes.Amende;
+import be.ipam.SGBD.classes.Borrowing;
 import be.ipam.SGBD.classes.Cotisation;
 
 @Service
@@ -17,6 +18,8 @@ public class ReaderModel {
 	
 	@Autowired
 	ReaderDAO readerDAO;
+	@Autowired
+	BorrowingDAO borrowingDAO;
 
 	public Iterable<Reader> getReaders(){
 			
@@ -45,6 +48,10 @@ public class ReaderModel {
 
 	public List<Amende> getAmende(Reader r) {
 		return readerDAO.getAmende(r.getReaderId());
+	}
+
+	public Iterable<Borrowing> getEmprunts(long readerId) {
+		return borrowingDAO.getBorrowingByReader(readerId);
 	}
 	
 	

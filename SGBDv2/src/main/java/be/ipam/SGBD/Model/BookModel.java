@@ -37,15 +37,14 @@ public class BookModel {
 		 bookDAO.deleteById(id);
 	}
 	
-	public List<Copy> getCopiesForEdition(String isbn){
+	public Optional<Copy> getAvailableCopy(long bookId){
 		
-		return copyDAO.getCopies(isbn);
-	}
-	
-	public Optional<Copy> getAvailableCopyForEdition(String isbn){
-		
-		Optional<Copy> c = copyDAO.getAvailableCopy(isbn);
+		Optional<Copy> c = copyDAO.getAvailableCopy(bookId);
 		return  c;
 		
+	}
+
+	public String getCopyTitle(long copyId) {
+		return copyDAO.getCopyTitle(copyId);
 	}
 }

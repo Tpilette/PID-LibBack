@@ -12,7 +12,7 @@ import be.ipam.SGBD.classes.Borrowing;
 public interface BorrowingDAO extends CrudRepository<Borrowing,Long> {
 	
 	
-	@Query(value = "SELECT * FROM BORROWING WHERE ReaderId = 1?",nativeQuery = true)
+	@Query(value = "SELECT BorrowingId,StartDate,ReaderId,CopyId FROM Borrowing WHERE ReaderId = ?1",nativeQuery = true)
 	public List<Borrowing> getBorrowingByReader(long readerId);
 
 }

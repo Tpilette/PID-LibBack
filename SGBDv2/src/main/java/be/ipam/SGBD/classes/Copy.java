@@ -2,9 +2,6 @@ package be.ipam.SGBD.classes;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
 @Entity
 @Table(name="Copy")
 public class Copy {
@@ -24,6 +21,14 @@ public class Copy {
 	@ManyToOne
 	@JoinColumn(name = "BibliothequeId")
 	private Bibliotheque bibliotheque;
+	
+	@ManyToOne
+	@JoinColumn(name = "BookId")
+	private Book book;	
+	
+	@JoinColumn(name="IsEbook")
+	private Boolean isEbook;
+	
 
 	public long getCopyId() {
 		return copyId;
