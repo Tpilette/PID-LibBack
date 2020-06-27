@@ -40,15 +40,13 @@ public class BookController {
     }
     
     //GET title of copy
-     @RequestMapping(method=RequestMethod.GET,value="/copyTitle/{copyId}")
+     @RequestMapping(method=RequestMethod.GET,value="/copyTitle/{copyId}",produces="text/plain")
+     @ResponseBody
      public String getCopyTitle(@PathVariable long copyId){
 
     	String title = bm.getCopyTitle(copyId);
-    	
-    	Map<String, String> body = Collections.singletonMap("\"response\"",String.format("\"%s\"", title));
-    	String result = body.toString();
-    	result = result.replace('=', ':');
-        return result;
+
+        return title;
         
      }
 
